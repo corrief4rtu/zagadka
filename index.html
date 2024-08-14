@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Солнце, отгадай слово!</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: lavender;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: purple;
+            font-size: 24px;
+        }
+
+        .word-field {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .cell {
+            width: 40px;
+            height: 40px;
+            border: 2px solid purple;
+            margin: 0 5px;
+            display: inline-block;
+            line-height: 40px;
+            font-size: 24px;
+            color: purple;
+        }
+
+        .floating-letters {
+            position: relative;
+            width: 150%;
+            height: 300px;
+            overflow: hidden;
+        }
+
+        .letter {
+            position: absolute;
+            font-size: 48px;
+            color: purple;
+            cursor: pointer;
+            user-select: none;
+            animation: float 10s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(100px, -50px) rotate(15deg);
+            }
+            50% {
+                transform: translate(-100px, 50px) rotate(-15deg);
+            }
+            75% {
+                transform: translate(50px, 100px) rotate(10deg);
+            }
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+        }
+
+        .message {
+            margin-top: 20px;
+            font-size: 36px;
+            color: blue;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Солнце, отгадай слово! "Это" позволяет не работать в поддержке :)</h1>
+        <div class="word-field">
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+        </div>
+        <div class="floating-letters">
+            <span class="letter" data-letter="О">О</span>
+            <span class="letter" data-letter="Б">Б</span>
+            <span class="letter" data-letter="М">М</span>
+            <span class="letter" data-letter="Р">Р</span>
+            <span class="letter" data-letter="О">О</span>
+            <span class="letter" data-letter="К">К</span>
+            <span class="letter" data-letter="Г">Г</span>
+            <span class="letter" data-letter="Д">Д</span>
+            <span class="letter" data-letter="С">С</span>
+            <span class="letter" data-letter="Я">Я</span>
+            <span class="letter" data-letter="У">У</span>
+            <span class="letter" data-letter="Л">Л</span>
+        </div>
+        <div class="message"></div>
+    </div>
+    <script>
+        const correctWord = ['О', 'Б', 'М', 'О', 'Р', 'О', 'К'];
+        let currentIndex = 0;
+
+        document.querySelectorAll('.letter').forEach(letter => {
+            letter.style.top = `${Math.random() * 250}px`;
+            letter.style.left = `${Math.random() * 80}%`;
+            letter.addEventListener('click', function () {
+                if (this.dataset['letter'] === correctWord[currentIndex]) {
+                    this.style.color = 'green';
+                    setTimeout(() => {
+                        this.style.color = 'purple';
+                    }, 2000);
+                    document.querySelectorAll('.cell')[currentIndex].textContent = this.dataset['letter'];
+                    currentIndex++;
+                } else {
+                    this.style.color = 'red';
+                    setTimeout(() => {
+                        this.style.color = 'purple';
+                    }, 2000);
+                }
+
+                if (currentIndex === correctWord.length) {
+                    document.querySelector('.message').textContent = 'Спокойной ночи, таких же сладких и потрясающе красивых снов, как ты, принцесса 💙';
+                }
+            });
+        });
+
+        document.querySelectorAll('.letter').forEach(letter => {
+            letter.style.animationDelay = `${Math.random() * 5}s`;
+        });
+    </script>
+</body>
+</html>
